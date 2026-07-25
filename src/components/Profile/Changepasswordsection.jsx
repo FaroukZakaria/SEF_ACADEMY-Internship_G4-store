@@ -3,7 +3,6 @@ export default function ChangePasswordSection({
   isChangingPassword,
   otpSent,
   otpEmail,
-  setOtpEmail,
   otpCode,
   setOtpCode,
   newPassword,
@@ -35,12 +34,14 @@ export default function ChangePasswordSection({
           <p className="text-sm text-amazon-textLight">
             We'll send an OTP to your email to verify your identity.
           </p>
-          <input
-            placeholder="Your email"
-            className="w-full px-4 py-2.5 text-sm border border-amazon-border rounded-lg bg-amazon-surface text-amazon-textDark focus:outline-none focus:ring-2 focus:ring-amazon-orange"
-            value={otpEmail}
-            onChange={(e) => setOtpEmail(e.target.value)}
-          />
+          <div>
+            <label className="text-xs font-medium text-amazon-textLight mb-1 block">
+              Email
+            </label>
+            <div className="w-full px-4 py-2.5 text-sm border border-amazon-border rounded-lg bg-amazon-bg text-amazon-textDark cursor-not-allowed select-none">
+              {otpEmail}
+            </div>
+          </div>
           {passwordError && (
             <p className="text-sm text-red-600">{passwordError}</p>
           )}
