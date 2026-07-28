@@ -17,6 +17,12 @@ import useThemeStore from './store/themeStore';
 import TopBar from './components/Layouts/TopBar';
 import Footer from './components/Layouts/Footer';
 import GoToTop from './GoToTop';
+import Shop from './components/Shop'
+import MyOrders from './components/Orders/MyOrders'
+import Cart from './components/Cart/Cart'
+import OrderDetails from './components/Orders/OrderDetails'
+import Checkout from './components/Checkout/Checkout'
+import Wishlist from './components/Wishlist'
 
 function App() {
   const { theme } = useThemeStore();
@@ -38,9 +44,11 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/orders" element={<MyOrders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} /> 
 
         <Route path="*" element={<Home />} />
       </Routes>
