@@ -47,15 +47,17 @@ export default function WishlistItemCard({
         <div className="flex gap-2">
           <button
             onClick={() => onAddToCart(product)}
-            disabled={isAddingToCart}
-            className="flex-1 py-2 bg-amazon-orange text-white text-sm font-medium rounded-lg hover:bg-amazon-orangeHover flex items-center justify-center gap-2 disabled:opacity-50"
+            disabled={isAddingToCart || product.stock === 0}
+            className={`disabled:cursor-not-allowed flex-1 py-2 ${product.stock === 0 ? "bg-destructive/20 hover:bg-destructive/40 text-destructive" : "bg-amazon-orange hover:bg-amazon-orangeHover text-white"} text-sm font-medium rounded-lg flex items-center justify-center gap-2 disabled:opacity-80`}
           >
             {isAddingToCart ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <ShoppingCart className="w-4 h-4" />
             )}
-            Add to Cart
+           {product.stock === 0
+              ? "Out Of Stock"
+              : "Add To Cart"}
           </button>
 
           <button

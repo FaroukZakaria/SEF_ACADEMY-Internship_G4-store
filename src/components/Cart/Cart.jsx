@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CartSkeleton from "../Skeletons/CartSkeleton";
+import useShopStore from "../../store/shopStore";
 
 const Cart = () =>{
 
@@ -22,6 +23,9 @@ const Cart = () =>{
     const [cartSummary, setCartSummary] = useState(null);
     
     const token = localStorage.getItem("token");
+
+    const cart = useShopStore((s) => s.cart);
+    const setCart = useShopStore((s) => s.setCart);
 
 
     const getCart = async () =>{
@@ -179,7 +183,7 @@ const Cart = () =>{
             
             setCartItems(response.data.items);
             setCartSummary(response.data);
-
+            setCart(response.data);
 
             }catch(error){
                 toast.error("Failed to increase quantity")
@@ -205,7 +209,7 @@ const Cart = () =>{
                 },})
                 setCartItems(response.data.items);
                 setCartSummary(response.data);
-
+                setCart(response.data)
         }
 
             }catch(error){
@@ -229,6 +233,7 @@ const Cart = () =>{
                 );
                 setCartItems(response.data.items);
                 setCartSummary(response.data);
+                setCart(response.data)
 
             }catch(error){
                 toast.error("Failed to remove item")
