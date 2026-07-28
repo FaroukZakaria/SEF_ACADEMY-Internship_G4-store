@@ -2,31 +2,38 @@
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import api from "./../../api/axios";
+import api from "../../api/axiosInstance";
 import WishlistEmptyState from "./WishlistEmptyState";
 import WishlistItemCard from "./WishlistItemCard";
+import useShopStore from "../../store/shopStore";
 
 export default function Wishlist() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [items, setItems] = useState([]);
+  // const [loading, setLoading] = useState(true);
   const [removingId, setRemovingId] = useState(null);
   const [addingToCartId, setAddingToCartId] = useState(null);
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        setLoading(true);
-        const { data } = await api.get("/wishlists/my");
-        setItems(data.wishlist?.products || []);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const wishlist = useShopStore((s) => s.wishlist);
+  const setWishlist = useShopStore((s) => s.setWishlist);
+  const cart = useShopStore((s) => s.cart);
+  const setCart = useShopStore((s) => s.setCart);
+  const wishlistLoading = useShopStore((s) => s.wishlistLoading);
 
-    fetchWishlist();
-  }, []);
+  // useEffect(() => {
+  //   const fetchWishlist = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const { data } = await api.get("/wishlists/my");
+  //       setItems(data.wishlist?.products || []);
+  //     } catch (err) {
+  //       console.error(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchWishlist();
+  // }, []);
 
   const handleRemove = async (productId) => {
     try {
@@ -34,7 +41,7 @@ export default function Wishlist() {
 
       const { data } = await api.delete(`/wishlists/remove/${productId}`);
 
-      setItems(data.wishlist?.products || []);
+      setWishlist(data.wishlist?.products || []);
       toast.success("Removed from wishlist");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed Removed");
@@ -47,10 +54,12 @@ export default function Wishlist() {
     try {
       setAddingToCartId(product._id);
 
-      await api.post("/carts/items", {
+      const response = await api.post("/carts/items", {
         productId: product._id,
         quantity: 1,
       });
+
+      setCart(response.data);
 
       toast.success("Added to cart");
     } catch (err) {
@@ -60,9 +69,9 @@ export default function Wishlist() {
     }
   };
 
-  if (loading) {
+  if (wishlistLoading) {
     return (
-      <div className="flex items-center justify-center py-24">
+      <div className="flex items-center justify-center p-40">
         <Loader2 className="w-8 h-8 animate-spin text-amazon-orange" />
       </div>
     );
@@ -75,11 +84,11 @@ export default function Wishlist() {
           My Wishlist
         </h1>
 
-        {items.length === 0 ? (
+        {wishlist.length === 0 ? (
           <WishlistEmptyState />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {items.map((product) => (
+            {wishlist.map((product) => (
               <WishlistItemCard
                 key={product._id}
                 product={product}
