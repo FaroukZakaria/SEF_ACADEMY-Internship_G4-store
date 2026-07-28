@@ -9,7 +9,7 @@ const FavoriteButton = ({ isFavorite, loading, onClick }) => {
     >
       <Heart
         size={20}
-        className={`${isFavorite ? "fill-red-500 text-red-500" : "text-amazon-textDark"} hover:text-destructive`}
+        className={`${isFavorite ? "fill-red-500 text-red-500" : "text-black/60"} hover:text-destructive`}
       />
     </button>
   );

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import { useState, useEffect } from 'react'
+import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -10,13 +10,25 @@ import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
 import VerifyOTP from './components/Authentication/VerifyOTP'
 import ForgotPassword from './components/Authentication/ForgotPassword'
-import MyOrders from './components/MyOrders'
-import Cart from './components/Cart'
-import Wishlist from './components/Wishlist'
+import MyOrders from './components/Orders/MyOrders'
+import Cart from './components/Cart/Cart'
+import Wishlist from './components/Wishlist/Wishlist'
+import useThemeStore from './store/themeStore';
+import TopBar from './components/Layouts/TopBar';
+import Footer from './components/Layouts/Footer';
+import GoToTop from './GoToTop';
 
 function App() {
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   return (
     <BrowserRouter>
+      <GoToTop />
+      <TopBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -32,6 +44,7 @@ function App() {
 
         <Route path="*" element={<Home />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
