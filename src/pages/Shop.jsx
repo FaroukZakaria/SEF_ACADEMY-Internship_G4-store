@@ -6,22 +6,33 @@ import ShopSkeleton from "../components/Shop/ShopSkeleton";
 import EmptyProducts from "../components/Shop/EmptyProducts";
 import ProductGrid from "../components/Shop/ProductGrid";
 import { getWishlist } from "../api/wishlist";
+import { useSearchParams } from "react-router-dom";
 
 const Shop = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [totalPages, setTotalPages] = useState(1);
 
   const [wishlist, setWishlist] = useState([]);
 
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [category, setCategory] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [sort, setSort] = useState("");
+  // const [search, setSearch] = useState("");
+  // const [debouncedSearch, setDebouncedSearch] = useState("");
+  const initialSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(initialSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
+
+  // const [category, setCategory] = useState("");
+  // const [minPrice, setMinPrice] = useState("");
+  // const [maxPrice, setMaxPrice] = useState("");
+  // const [sort, setSort] = useState("");
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+  const [sort, setSort] = useState(searchParams.get("sort") || "");
 
   const [openFilters, setOpenFilters] = useState(false);
 
@@ -60,6 +71,27 @@ const Shop = () => {
   }, [page, debouncedSearch, category, minPrice, maxPrice, sort]);
 
   useEffect(() => {
+    const params = {};
+
+    if (category) params.category = category;
+    if (minPrice) params.minPrice = minPrice;
+    if (maxPrice) params.maxPrice = maxPrice;
+    if (sort) params.sort = sort;
+    if (debouncedSearch) params.search = debouncedSearch;
+    if (page > 1) params.page = page;
+
+    setSearchParams(params);
+  }, [
+    category,
+    minPrice,
+    maxPrice,
+    sort,
+    debouncedSearch,
+    page,
+    setSearchParams,
+  ]);
+
+  useEffect(() => {
     const fetchWishlist = async () => {
       try {
         const data = await getWishlist();
@@ -93,6 +125,7 @@ const Shop = () => {
             setMaxPrice={setMaxPrice}
             sort={sort}
             setSort={setSort}
+            setPage={setPage}
           />
 
           <div className="flex-1 min-w-0">

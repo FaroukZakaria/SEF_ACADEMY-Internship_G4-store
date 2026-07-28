@@ -113,7 +113,7 @@ const ProductCard = ({ product, wishlist, setWishlist }) => {
         <button
           disabled={loading || product.stock === 0}
           onClick={handleAddToCart}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-amazon-orange py-2 font-semibold text-amazon-textDark transition hover:bg-amazon-orangeHover"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-amazon-orange py-2 font-semibold text-amazon-textDark transition hover:bg-amazon-orangeHover disabled:cursor-not-allowed"
         >
           <ShoppingCart size={18} />
           {loading
