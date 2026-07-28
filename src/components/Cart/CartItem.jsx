@@ -26,7 +26,7 @@ const CartItem = ({item , increaseQuantity , decreaseQuantity , deleteItem , isL
                             <FiMinus size={14} />
                         </div>
 
-                        <div className="text-amazon-navy">{item.quantity}</div>
+                        <div className="text-amazon-textDark">{item.quantity}</div>
 
                         <div className="border border-amazon-border
                             rounded w-7 h-7 flex items-center 
