@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import api from "../../api/axios";
+import api from "../../api/axiosInstance";
 import ProfileInfoCard from "./ProfileInfoCard";
 import AddressesSection from "./Addressessection";
 import ChangePasswordSection from "./ChangePasswordSection";

@@ -1,6 +1,6 @@
-import { useState } from 'react'
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import './index.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
@@ -10,6 +10,13 @@ import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
 import VerifyOTP from './components/Authentication/VerifyOTP'
 import ForgotPassword from './components/Authentication/ForgotPassword'
+import MyOrders from './components/Orders/MyOrders'
+import Cart from './components/Cart/Cart'
+import Wishlist from './components/Wishlist/Wishlist'
+import useThemeStore from './store/themeStore';
+import TopBar from './components/Layouts/TopBar';
+import Footer from './components/Layouts/Footer';
+import GoToTop from './GoToTop';
 import Shop from './components/Shop'
 import MyOrders from './components/Orders/MyOrders'
 import Cart from './components/Cart/Cart'
@@ -18,8 +25,16 @@ import Checkout from './components/Checkout/Checkout'
 import Wishlist from './components/Wishlist'
 
 function App() {
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   return (
     <BrowserRouter>
+      <GoToTop />
+      <TopBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -37,6 +52,7 @@ function App() {
 
         <Route path="*" element={<Home />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

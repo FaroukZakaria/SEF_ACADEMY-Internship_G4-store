@@ -5,8 +5,9 @@ import ShopSidebar from "../components/Shop/ShopSidebar";
 import ShopSkeleton from "../components/Shop/ShopSkeleton";
 import EmptyProducts from "../components/Shop/EmptyProducts";
 import ProductGrid from "../components/Shop/ProductGrid";
-import { getWishlist } from "../api/wishlist";
+// import { getWishlist } from "../api/wishlist";
 import { useSearchParams } from "react-router-dom";
+import useShopStore from "../store/shopStore";
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,7 +18,7 @@ const Shop = () => {
   const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [wishlist, setWishlist] = useState([]);
+  // const [wishlist, setWishlist] = useState([]);
 
   // const [search, setSearch] = useState("");
   // const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -91,18 +92,18 @@ const Shop = () => {
     setSearchParams,
   ]);
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const data = await getWishlist();
+  // useEffect(() => {
+  //   const fetchWishlist = async () => {
+  //     try {
+  //       const data = await getWishlist();
 
-        setWishlist(data.wishlist.products);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchWishlist();
-  }, []);
+  //       setWishlist(data.wishlist.products);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchWishlist();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-amazon-bg ">
@@ -136,8 +137,6 @@ const Shop = () => {
             ) : (
               <ProductGrid
                 products={products}
-                wishlist={wishlist}
-                setWishlist={setWishlist}
               />
             )}
           </div>
