@@ -17,12 +17,8 @@ import useThemeStore from './store/themeStore';
 import TopBar from './components/Layouts/TopBar';
 import Footer from './components/Layouts/Footer';
 import GoToTop from './GoToTop';
-import Shop from './components/Shop'
-import MyOrders from './components/Orders/MyOrders'
-import Cart from './components/Cart/Cart'
 import OrderDetails from './components/Orders/OrderDetails'
 import Checkout from './components/Checkout/Checkout'
-import Wishlist from './components/Wishlist'
 
 function App() {
   const { theme } = useThemeStore();
