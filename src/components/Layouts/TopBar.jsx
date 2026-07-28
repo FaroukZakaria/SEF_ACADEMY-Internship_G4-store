@@ -278,7 +278,7 @@ const TopBar = () => {
 
                             {/* Shopping Cart  */}
                             <a className="p-1.5 border border-amazon-border text-amazon-textLight rounded-full flex justify-center items-center relative"
-                                href="/shop">
+                                href="/cart">
                                 <ShoppingCart size={16} strokeWidth={2} className="text-amazon-textLight hover:text-amazon-orange" />
                                 {
                                     ordersCount ?
