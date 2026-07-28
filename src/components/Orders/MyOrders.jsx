@@ -26,7 +26,6 @@ const MyOrders = () =>{
             } else {
                 setLoadingMore(true);
             }
-            console.log("Token:", token);
 
             const response = await axios.get(
                 `https://e-commerce-api-3wara.vercel.app/orders/my?page=${page}&limit=5`,
