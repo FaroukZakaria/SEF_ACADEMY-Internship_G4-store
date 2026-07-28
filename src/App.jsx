@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './App.css'
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Home from './components/Home/Home'
@@ -9,8 +9,10 @@ import Register from './components/Authentication/Register'
 import VerifyOTP from './components/Authentication/VerifyOTP'
 import ForgotPassword from './components/Authentication/ForgotPassword'
 import Shop from './components/Shop'
-import MyOrders from './components/MyOrders'
-import Cart from './components/Cart'
+import MyOrders from './components/Orders/MyOrders'
+import Cart from './components/Cart/Cart'
+import OrderDetails from './components/Orders/OrderDetails'
+import Checkout from './components/Checkout/Checkout'
 import Wishlist from './components/Wishlist'
 
 
@@ -25,9 +27,11 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/orders" element={<MyOrders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} /> 
 
         <Route path="*" element={<Home />} />
       </Routes>
