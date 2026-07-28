@@ -6,7 +6,7 @@ const categories = [
   "beauty",
 ];
 
-const CategoryFilter = ({ category, setCategory }) => {
+const CategoryFilter = ({ category, setCategory, setPage, }) => {
   return (
     <div className="mb-8">
 
@@ -21,7 +21,10 @@ const CategoryFilter = ({ category, setCategory }) => {
           <input
             type="radio"
             checked={category === ""}
-            onChange={() => setCategory("")}
+            onChange={() => {
+              setCategory("");
+              setPage(1);
+            }}
           />
 
           All
@@ -36,7 +39,10 @@ const CategoryFilter = ({ category, setCategory }) => {
             <input
               type="radio"
               checked={category === item}
-              onChange={() => setCategory(item)}
+              onChange={() => {
+                setCategory(item);
+                setPage(1);
+              }}
             />
 
             <span className="capitalize">

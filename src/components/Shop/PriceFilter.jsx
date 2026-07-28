@@ -3,6 +3,7 @@ const PriceFilter = ({
   setMinPrice,
   maxPrice,
   setMaxPrice,
+  setPage,
 }) => {
   return (
     <div className="mb-8">
@@ -17,7 +18,10 @@ const PriceFilter = ({
           type="number"
           placeholder="Min Price"
           value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
+          onChange={(e) => {
+            setMinPrice(e.target.value);
+            setPage(1);
+          }}
           className="w-full rounded-lg border border-amazon-border p-2 outline-none focus:ring-2 focus:ring-amazon-orange"
         />
 
@@ -25,7 +29,10 @@ const PriceFilter = ({
           type="number"
           placeholder="Max Price"
           value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
+          onChange={(e) => {
+            setMaxPrice(e.target.value);
+            setPage(1);
+          }}
           className="w-full rounded-lg border border-amazon-border p-2 outline-none focus:ring-2 focus:ring-amazon-orange"
         />
 

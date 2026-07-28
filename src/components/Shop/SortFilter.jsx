@@ -1,4 +1,4 @@
-const SortFilter = ({ sort, setSort }) => {
+const SortFilter = ({ sort, setSort, setPage, }) => {
   return (
     <div>
       <h3 className="mb-4 font-semibold text-amazon-textDark">
@@ -7,7 +7,10 @@ const SortFilter = ({ sort, setSort }) => {
 
       <select
         value={sort}
-        onChange={(e) => setSort(e.target.value)}
+        onChange={(e) => {
+          setSort(e.target.value);
+          setPage(1);
+        }}
         className="w-full rounded-lg border border-amazon-border bg-amazon-surface p-2 outline-none focus:ring-2 focus:ring-amazon-orange"
       >
         <option value="">Default</option>
