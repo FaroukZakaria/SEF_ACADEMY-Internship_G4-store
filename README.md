@@ -8,7 +8,7 @@ git clone https://github.com/FaroukZakaria/SEF_ACADEMY-Internship_G4-store
 ```
 ### 2. Navigate inside the React project workspace folder
 ```bash
-cd SEF_ACADEMY-Internship_G4
+cd SEF_ACADEMY-Internship_G4-store
 ```
 
 ### 3. Download and install team packages (React Router, etc.)

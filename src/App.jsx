@@ -2,7 +2,9 @@ import { useState } from 'react'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Home from './components/Home/Home'
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProductDetails";
 import Profile from './components/Profile/Profile'
 import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
@@ -15,7 +17,6 @@ import OrderDetails from './components/Orders/OrderDetails'
 import Checkout from './components/Checkout/Checkout'
 import Wishlist from './components/Wishlist'
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/cart" element={<Cart />} />
@@ -36,7 +38,7 @@ function App() {
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
