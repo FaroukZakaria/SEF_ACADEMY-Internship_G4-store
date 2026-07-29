@@ -39,7 +39,7 @@ const VerifyRegisterOTP = () => {
         otp: verifyOtp,
       });
       toast.success(data.message);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       toast.error(err.response?.data?.message || "Verify Failed");
     } finally {
