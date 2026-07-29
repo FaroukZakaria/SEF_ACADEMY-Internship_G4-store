@@ -85,13 +85,12 @@ const Checkout = () =>{
         return Object.keys(newErrors).length === 0;
     }
 
-    const handlePlaceOrder = async () =>{
-        
-            
-            if (!validateForm()) {
+    const handlePlaceOrder = async () =>{    
+        if (!validateForm()) {
             return
         }
-        try{
+
+        try {
             setPlacingOrder(true);
             
 
@@ -119,8 +118,8 @@ const Checkout = () =>{
         notes:"",
     });
     navigate("/orders");
-        toast.success("Order placed successfully");
-        await getCart();
+    await getCart();
+    toast.success("Order placed successfully");
 
         }catch(error){
             toast.error("We couldn't place your order. Please try again")
@@ -154,7 +153,7 @@ const Checkout = () =>{
 
     return(
         <div className="max-w-7xl mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8"> Checkout</h1>
+            <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
             <div className="flex flex-col lg:flex-row gap-8">
 
