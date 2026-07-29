@@ -63,11 +63,9 @@ const dropDownItems = [
     },
 ]
 
-const TopBar = () => {
+const TopBar = ({ isLoggedIn, setIsLoggedIn, profileUsername, setProfileUsername }) => {
     const [openSearch, setOpenSearch] = useState(false);
-    const [profileUsername, setProfileUsername] = useState("");
     const [dropDown, setDropDown] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { theme, toggleTheme } = useThemeStore();
 
     const wishlist = useShopStore((s) => s.wishlist);
@@ -90,9 +88,14 @@ const TopBar = () => {
 
         const fetchMyProfile = async () => {
             try {
-                const data = await getMyProfile();
-
-                setProfileUsername(data.user?.username);
+                const username = localStorage.getItem("username");
+                if (username) {
+                    setProfileUsername(username);
+                } else {
+                    const data = await getMyProfile();
+                    setProfileUsername(data.user?.username);
+                    localStorage.setItem("username", data.user?.username);
+                }
             } catch (e) {
                 toast.error(e.response?.data?.message);
             }
@@ -145,6 +148,9 @@ const TopBar = () => {
           toast.error(e.response?.data?.message)
         } finally {
           localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          localStorage.removeItem("username");
           setIsLoggedIn(false);
           navigate("/login");
         }
