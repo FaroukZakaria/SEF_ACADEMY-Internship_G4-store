@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MapPin, Plus } from "lucide-react";
 import { toast } from "react-toastify";
-import api from "../../api/axios";
+import api from "../../api/axiosInstance";
 
 export default function AddressesSection({ userId, addresses = [], onAddressesChange }) {
   const [country, setCountry] = useState("");

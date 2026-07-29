@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../../api/axios";
+import api from "../../api/axiosInstance";
 import ProfileInfoCard from "./ProfileInfoCard";
 import AddressesSection from "./Addressessection";
 import ChangePasswordSection from "./ChangePasswordSection";
@@ -22,22 +22,23 @@ function ProfilePage() {
 
   const [loggingOut, setLoggingOut] = useState(false);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get("/auth/me");
-        const user = res.data.user;
+   useEffect(() => {
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get("/auth/me");
+      const user = res.data.user;
 
-        setProfileData(user);
-        setEditData(user);
-      } catch (err) {
-        console.warn("[fetchProfile] API failed:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      setProfileData(user);
+      setEditData(user);
+    } catch (err) {
+      console.warn("[fetchProfile] API failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+ 
     fetchProfile();
   }, []);
 
