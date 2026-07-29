@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import MainLayout from "./components/Layouts/MainLayout";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
