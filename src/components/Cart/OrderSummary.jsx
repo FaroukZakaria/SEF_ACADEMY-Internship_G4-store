@@ -41,10 +41,10 @@ const OrderSummary = ({ subtotal, shipping, tax, total , discount ,coupon }) =>{
                         )}
 
                     <p className="text-md mb-10 font-semibold 
-                        text-amazon-textLight ">EGP {shipping.toFixed(0)}</p>
+                        text-amazon-textLight ">EGP {shipping}</p>
 
                     <p className="mb-3 text-md font-semibold 
-                        text-amazon-textLight">EGP {tax.toFixed(0)}</p>
+                        text-amazon-textLight">EGP {tax}</p>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@ const OrderSummary = ({ subtotal, shipping, tax, total , discount ,coupon }) =>{
                     text-amazon-textDark">Total</p></div>
 
                 <div > <p className="text-md font-bold 
-                    text-amazon-orange">EGP {total.toFixed(0)}</p></div>
+                    text-amazon-orange">EGP {total}</p></div>
             </div>
 
             <div>
