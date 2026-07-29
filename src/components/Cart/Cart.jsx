@@ -115,12 +115,12 @@ const Cart = () =>{
         (total, item) => total + item.price * item.quantity, 0 );
         const shipping  = 50;
 
-        const discountedSubtotal = (cartSummary?.subtotal || subtotal) -
-                                (cartSummary?.discountAmount || 0);
+        const discountedSubtotal = ((cartSummary?.subtotal || subtotal) -
+                                (cartSummary?.discountAmount || 0)).toFixed(0);
 
-        const tax = discountedSubtotal * 0.14;
+        const tax = (discountedSubtotal * 0.14).toFixed(0);
 
-        const total = subtotal + shipping  + tax ;
+        const total = Number((Number(discountedSubtotal) + Number(shipping) + Number(tax)).toFixed(0));
 
         if(loading){
             return(
@@ -294,7 +294,7 @@ const Cart = () =>{
                     <OrderSummary
                         subtotal={cartSummary?.subtotal || subtotal}
                         shipping={shipping} tax={tax}
-                        total={cartSummary?.total || total}
+                        total={total}
                         discount={cartSummary?.discountAmount || 0}
                         coupon={cartSummary?.coupon} />
                 </div>
