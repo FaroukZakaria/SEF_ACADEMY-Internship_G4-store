@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import MainLayout from "./components/Layouts/MainLayout";
@@ -13,28 +15,43 @@ import ResetPassword from "./components/Authentication/ResetPassword";
 import MyOrders from "./components/MyOrders";
 import Cart from "./components/Cart";
 import Wishlist from "./components/Wishlist";
+import useThemeStore from './store/themeStore';
+import TopBar from './components/Layouts/TopBar';
+import Footer from './components/Layouts/Footer';
+import GoToTop from './GoToTop';
+import OrderDetails from './components/Orders/OrderDetails'
+import Checkout from './components/Checkout/Checkout'
 
 function App() {
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   return (
     <BrowserRouter>
+      <GoToTop />
+      <TopBar />
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/verify-otp" element={<VerifyRegisterOTP />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
-          <Route path="/orders" element={<MyOrders />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<VerifyRegisterOTP />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/orders" element={<MyOrders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<Wishlist />} />
 
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

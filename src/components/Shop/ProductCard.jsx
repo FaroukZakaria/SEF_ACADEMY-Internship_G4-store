@@ -7,9 +7,15 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../api/cart";
 import { addToWishlist, removeFromWishlist } from "../../api/wishlist";
 import { Link } from "react-router-dom";
+import useShopStore from "../../store/shopStore";
 
-const ProductCard = ({ product, wishlist, setWishlist }) => {
+const ProductCard = ({ product }) => {
   const [loading, setLoading] = useState(false);
+
+  const wishlist = useShopStore((s) => s.wishlist);
+  const setWishlist = useShopStore((s) => s.setWishlist);
+  const cart = useShopStore((s) => s.cart);
+  const setCart = useShopStore((s) => s.setCart);
 
   const isFavorite = wishlist.some((item) => item._id === product._id);
   const [wishlistLoading, setWishlistLoading] = useState(false);
@@ -25,6 +31,8 @@ const ProductCard = ({ product, wishlist, setWishlist }) => {
       setLoading(true);
 
       const data = await addToCart(product._id);
+
+      setCart(data);
 
       toast.success(data.message || "Added To Cart");
     } catch (error) {
@@ -47,13 +55,12 @@ const ProductCard = ({ product, wishlist, setWishlist }) => {
       if (isFavorite) {
         const data = await removeFromWishlist(product._id);
 
-        setWishlist(data.wishlist.products);
+        setWishlist((prev) => prev.filter((item) => (item._id || item) !== product._id));
 
         toast.success(data.message);
       } else {
         const data = await addToWishlist(product._id);
-
-        setWishlist(data.wishlist.products);
+        setWishlist((prev) => [...prev, product]);
 
         toast.success(data.message);
       }
@@ -103,7 +110,7 @@ const ProductCard = ({ product, wishlist, setWishlist }) => {
             ${product.discountPrice || product.price}
           </span>
 
-          {product.discountPrice && (
+          {product.discountPrice > 0 && (
             <span className="text-sm text-amazon-textLight line-through">
               ${product.price}
             </span>
@@ -113,7 +120,7 @@ const ProductCard = ({ product, wishlist, setWishlist }) => {
         <button
           disabled={loading || product.stock === 0}
           onClick={handleAddToCart}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-amazon-orange py-2 font-semibold text-amazon-textDark transition hover:bg-amazon-orangeHover"
+          className={`flex w-full items-center justify-center gap-2 rounded-lg ${product.stock === 0 ? "bg-destructive/10 hover:bg-destructive/20 text-destructive" : "bg-amazon-orange hover:bg-amazon-orangeHover text-amazon-textDark"} py-2 font-semibold transition disabled:cursor-not-allowed`}
         >
           <ShoppingCart size={18} />
           {loading

@@ -14,12 +14,14 @@ const ShopSidebar = ({
   setSort,
   open,
   setOpen,
+  setPage,
 }) => {
   const clearFilters = () => {
     setCategory("");
     setMinPrice("");
     setMaxPrice("");
     setSort("");
+    setPage(1);
   };
 
   return (
@@ -43,16 +45,17 @@ const ShopSidebar = ({
           </button>
         </div>
 
-        <CategoryFilter category={category} setCategory={setCategory} />
+        <CategoryFilter category={category} setCategory={setCategory} setPage={setPage} />
 
         <PriceFilter
           minPrice={minPrice}
           setMinPrice={setMinPrice}
           maxPrice={maxPrice}
           setMaxPrice={setMaxPrice}
+          setPage={setPage}
         />
 
-        <SortFilter sort={sort} setSort={setSort} />
+        <SortFilter sort={sort} setSort={setSort} setPage={setPage}/>
 
         <button
           onClick={clearFilters}
