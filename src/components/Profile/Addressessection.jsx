@@ -1,25 +1,57 @@
-
 import { useState } from "react";
 import { MapPin, Plus } from "lucide-react";
 import { toast } from "react-toastify";
-export default function AddressesSection() {
+import api from "../../api/axios";
+
+export default function AddressesSection({ userId, addresses = [], onAddressesChange }) {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [building, setBuilding] = useState("");
   const [postalCode, setPostalCode] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const handleAddAddress = () => {
-    if (!country.trim() || !city.trim() || !street.trim()) {
-      toast.error("Please fill country, city and street");
-      return;
-    }
-    toast.success("Address added");
+  const resetForm = () => {
     setCountry("");
     setCity("");
     setStreet("");
     setBuilding("");
     setPostalCode("");
+  };
+
+  const handleAddAddress = async () => {
+    if (!country.trim() || !city.trim() || !street.trim()) {
+      toast.error("Please fill country, city and street");
+      return;
+    }
+
+    const newAddress = {
+      country: country.trim(),
+      city: city.trim(),
+      street: street.trim(),
+      building: building.trim(),
+      postalCode: postalCode.trim(),
+      defaultAddress: addresses.length === 0, 
+    };
+
+    const updatedAddresses = [...addresses, newAddress];
+
+    setSaving(true);
+    try {
+      const res = await api.patch(`/users/${userId}`, {
+        addresses: updatedAddresses,
+      });
+
+      const updatedUser = res.data.user;
+      onAddressesChange(updatedUser.addresses);
+      toast.success("Address added");
+      resetForm();
+    } catch (err) {
+      console.error("[handleAddAddress]", err);
+      toast.error(err.response?.data?.message || "Failed to add address");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -30,9 +62,36 @@ export default function AddressesSection() {
           Addresses
         </h3>
       </div>
+
       <div className="space-y-3 mb-4">
-        <p className="text-sm text-amazon-textLight">No addresses yet.</p>
+        {addresses.length === 0 ? (
+          <p className="text-sm text-amazon-textLight">No addresses yet.</p>
+        ) : (
+          addresses.map((addr, idx) => (
+            <div
+              key={idx}
+              className="flex items-start justify-between border border-amazon-border rounded-lg p-3"
+            >
+              <div className="text-sm text-amazon-textDark">
+                <p>
+                  {addr.street}, {addr.building && `${addr.building}, `}
+                  {addr.city}, {addr.country}
+                </p>
+                {addr.postalCode && (
+                  <p className="text-amazon-textLight">{addr.postalCode}</p>
+                )}
+                {addr.defaultAddress && (
+                  <span className="text-xs text-amazon-orange font-medium">
+                    Default
+                  </span>
+                )}
+              </div>
+              
+            </div>
+          ))
+        )}
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <input
           placeholder="Country"
@@ -65,13 +124,17 @@ export default function AddressesSection() {
           onChange={(e) => setPostalCode(e.target.value)}
         />
       </div>
+
       <button
         onClick={handleAddAddress}
+        disabled={saving}
         className="inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-amazon-orange text-white hover:bg-amazon-orangeHover active:bg-amazon-orangeHover px-4 py-2 text-sm mt-4"
       >
         <Plus className="w-4 h-4 mr-2" aria-hidden="true" />
-        Add Address
+        {saving ? "Saving..." : "Add Address"}
       </button>
     </div>
   );
 }
+
+
