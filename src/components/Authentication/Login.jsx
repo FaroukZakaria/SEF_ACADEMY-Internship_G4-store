@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../api/axiosInstance";
 import Input from "./Input";
 import Title from "./Title";
+import { loginUser } from "../../auth-service/authService";
 import { loginSchema } from "../../schema/authenticationShema";
 
-const Login = () => {
+const Login = ({ isLoggedIn, setIsLoggedIn, profileUsername, setProfileUsername }) => {
   const navigate = useNavigate();
   const {
     register,
@@ -22,6 +23,9 @@ const Login = () => {
   const onSubmit = async (values) => {
     try {
       const { data } = await axiosInstance.post("/auth/login", values);
+      loginUser(data);
+      setProfileUsername(data.user.username);
+      setIsLoggedIn(true);
       toast.success(data.message);
       navigate("/");
     } catch (err) {
