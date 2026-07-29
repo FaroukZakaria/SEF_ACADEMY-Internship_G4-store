@@ -23,6 +23,9 @@ import Checkout from './components/Checkout/Checkout'
 
 function App() {
   const { theme } = useThemeStore();
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profileUsername, setProfileUsername] = useState("");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -31,11 +34,11 @@ function App() {
   return (
     <BrowserRouter>
       <GoToTop />
-      <TopBar />
+      <TopBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} profileUsername={profileUsername} setProfileUsername={setProfileUsername} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} profileUsername={profileUsername} setProfileUsername={setProfileUsername} />} />
+        <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} profileUsername={profileUsername} setProfileUsername={setProfileUsername} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyRegisterOTP />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
