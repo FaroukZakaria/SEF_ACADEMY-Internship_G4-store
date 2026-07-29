@@ -7,7 +7,7 @@ import AddressesSection from "./Addressessection";
 import ChangePasswordSection from "./ChangePasswordSection";
 import LogoutButton from "./LogoutButton";
 
-function ProfilePage() {
+function ProfilePage({ setIsLoggedIn, isLoggedIn, profileUsername, setProfileUsername }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -51,7 +51,7 @@ function ProfilePage() {
     const phone = editData.phone?.trim() || "";
     const phoneRegex = /^01[0125][0-9]{8}$/; 
 
-    if (!phoneRegex.test(phone)) {
+    if (!phoneRegex.test(phone) && phone !== "") {
 toast.error("Invalid Egyptian phone number (11 digits)");      return;
     }
 
@@ -80,6 +80,10 @@ toast.error("Invalid image URL (jpg, png, etc.)");
       console.error("[handleSaveProfile]", err);
       toast.error(err.response?.data?.message || "Failed to save changes");
     }
+      finally {
+        setProfileUsername(editData.username);
+        localStorage.setItem("username", editData.username);
+      }
   };
 
   const handleEdit = () => {
@@ -145,7 +149,11 @@ toast.error("Invalid image URL (jpg, png, etc.)");
       console.warn("[handleLogout] API failed, but proceeding to logout");
     } finally {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+      localStorage.removeItem("username");
       setLoggingOut(false);
+      setIsLoggedIn(false);
       navigate("/login");
     }
   };
