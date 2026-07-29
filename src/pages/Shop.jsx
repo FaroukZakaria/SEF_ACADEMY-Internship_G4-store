@@ -60,6 +60,15 @@ const Shop = () => {
   }, [search]);
 
   useEffect(() => {
+    const urlSearch = searchParams.get("search") || "";
+    if (urlSearch !== search) {
+      setSearch(urlSearch);
+      setDebouncedSearch(urlSearch);
+      setPage(1);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     fetchProducts({
       page,
       limit: 12,
