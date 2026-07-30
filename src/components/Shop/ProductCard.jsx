@@ -1,75 +1,83 @@
 import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
+// import { useState } from "react";
 import Rating from "./Rating";
 import DiscountBadge from "./DiscountBadge";
 import FavoriteButton from "./FavoriteButton";
-import { toast } from "react-toastify";
-import { addToCart } from "../../api/cart";
-import { addToWishlist, removeFromWishlist } from "../../api/wishlist";
+// import { toast } from "react-toastify";
+// import { addToCart } from "../../api/cart";
+// import { addToWishlist, removeFromWishlist } from "../../api/wishlist";
 import { Link } from "react-router-dom";
-import useShopStore from "../../store/shopStore";
+// import useShopStore from "../../store/shopStore";
+import useCart from "../../hooks/useCart";
+import useWishlist from "../../hooks/useWishlist";
 
 const ProductCard = ({ product }) => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const wishlist = useShopStore((s) => s.wishlist);
-  const setWishlist = useShopStore((s) => s.setWishlist);
-  const cart = useShopStore((s) => s.cart);
-  const setCart = useShopStore((s) => s.setCart);
+  // const wishlist = useShopStore((s) => s.wishlist);
+  // const setWishlist = useShopStore((s) => s.setWishlist);
+  // const cart = useShopStore((s) => s.cart);
+  // const setCart = useShopStore((s) => s.setCart);
+
+  // const isFavorite = wishlist.some((item) => item._id === product._id);
+  // const [wishlistLoading, setWishlistLoading] = useState(false);
+
+  const { loading, handleAddToCart } = useCart();
+
+  const { loading: wishlistLoading, wishlist, handleWishlist, } = useWishlist();
 
   const isFavorite = wishlist.some((item) => item._id === product._id);
-  const [wishlistLoading, setWishlistLoading] = useState(false);
 
-  const handleAddToCart = async () => {
-    const token = localStorage.getItem("token");
+  // const handleAddToCart = async () => {
+  //   const token = localStorage.getItem("token");
 
-    if (!token) {
-      toast.info("Please login to add items to cart");
-      return;
-    }
-    try {
-      setLoading(true);
+  //   if (!token) {
+  //     toast.info("Please login to add items to cart");
+  //     return;
+  //   }
+  //   try {
+  //     setLoading(true);
 
-      const data = await addToCart(product._id);
+  //     const data = await addToCart(product._id);
 
-      setCart(data);
+  //     setCart(data);
 
-      toast.success(data.message || "Added To Cart");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     toast.success(data.message || "Added To Cart");
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Something went wrong");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleWishlist = async () => {
-    const token = localStorage.getItem("token");
+  // const handleWishlist = async () => {
+  //   const token = localStorage.getItem("token");
 
-    if (!token) {
-      toast.info("Please login to use wishlist");
-      return;
-    }
-    try {
-      setWishlistLoading(true);
+  //   if (!token) {
+  //     toast.info("Please login to use wishlist");
+  //     return;
+  //   }
+  //   try {
+  //     setWishlistLoading(true);
 
-      if (isFavorite) {
-        const data = await removeFromWishlist(product._id);
+  //     if (isFavorite) {
+  //       const data = await removeFromWishlist(product._id);
 
-        setWishlist((prev) => prev.filter((item) => (item._id || item) !== product._id));
+  //       setWishlist((prev) => prev.filter((item) => (item._id || item) !== product._id));
 
-        toast.success(data.message);
-      } else {
-        const data = await addToWishlist(product._id);
-        setWishlist((prev) => [...prev, product]);
+  //       toast.success(data.message);
+  //     } else {
+  //       const data = await addToWishlist(product._id);
+  //       setWishlist((prev) => [...prev, product]);
 
-        toast.success(data.message);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Something went wrong");
-    } finally {
-      setWishlistLoading(false);
-    }
-  };
+  //       toast.success(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Something went wrong");
+  //   } finally {
+  //     setWishlistLoading(false);
+  //   }
+  // };
 
   return (
     <div className="overflow-hidden relative rounded-2xl border border-amazon-border bg-amazon-bg transition hover:-translate-y-1 hover:shadow-lg ">
@@ -90,7 +98,7 @@ const ProductCard = ({ product }) => {
         <FavoriteButton
           isFavorite={isFavorite}
           loading={wishlistLoading}
-          onClick={handleWishlist}
+          onClick={() => handleWishlist(product)}
         />
       </div>
 
@@ -107,19 +115,19 @@ const ProductCard = ({ product }) => {
 
         <div className="flex items-center gap-2">
           <span className="text-xl font-bold text-amazon-textDark">
-            ${product.discountPrice || product.price}
+            EGP {product.discountPrice || product.price}
           </span>
 
           {product.discountPrice > 0 && (
             <span className="text-sm text-amazon-textLight line-through">
-              ${product.price}
+              EGP {product.price}
             </span>
           )}
         </div>
 
         <button
           disabled={loading || product.stock === 0}
-          onClick={handleAddToCart}
+          onClick={() => handleAddToCart(product._id)}
           className={`flex w-full items-center justify-center gap-2 rounded-lg ${product.stock === 0 ? "bg-destructive/10 hover:bg-destructive/20 text-destructive" : "bg-amazon-orange hover:bg-amazon-orangeHover text-amazon-textDark"} py-2 font-semibold transition disabled:cursor-not-allowed`}
         >
           <ShoppingCart size={18} />

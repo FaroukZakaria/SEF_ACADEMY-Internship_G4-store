@@ -98,6 +98,16 @@ input:-webkit-autofill {
   background: #3b82f6;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--amazon-orange) !important;
+}
+
+.thumbs-swiper .swiper-slide-thumb-active > div {
+  border-color: var(--amazon-orange);
+}
+
+
       /* Shimmer */
 
 @keyframes shimmer {
