@@ -15,7 +15,6 @@ export default function ProductDetails() {
   
   const [quantity, setQuantity] = useState(1);
   
-  // النجوم تبدأ من 0 (فارغة تماماً)
   const [newRating, setNewRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [newComment, setNewComment] = useState('');
@@ -78,7 +77,7 @@ export default function ProductDetails() {
       setAverageRating(response.data.averageRating);
       setNumReviews(response.data.numReviews);
       setNewComment('');
-      setNewRating(0); // إعادة تعيين النجوم لتصبح فارغة بعد الإرسال
+      setNewRating(0); 
     } catch (error) {
       console.error('Error submitting review:', error);
       alert(error.response?.data?.message || 'Failed to submit review');
@@ -111,7 +110,7 @@ export default function ProductDetails() {
             <img src={productImage} alt={product.name} className="max-h-[400px] object-contain rounded-lg" />
           </div>
 
-          {/* معلومات المنتج */}
+       
           <div className="flex flex-col justify-between">
             <div>
               <div className="flex gap-2 mb-2">
@@ -129,7 +128,7 @@ export default function ProductDetails() {
 
               <h1 className="text-3xl font-bold text-[var(--amazon-textDark)] mb-3">{product.name}</h1>
 
-              {/* التقييمات */}
+        
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex text-[var(--amazon-yellow)]">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -144,7 +143,7 @@ export default function ProductDetails() {
                 </span>
               </div>
 
-              {/* الأسعار */}
+            
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-bold text-[var(--amazon-textDark)]">
                   EGP {product.discountPrice || product.price}
@@ -159,7 +158,7 @@ export default function ProductDetails() {
               <p className="text-[var(--amazon-textLight)] mb-6 leading-relaxed">{product.shortDescription}</p>
             </div>
 
-            {/* التحكم بالكمية وزر الإضافة للسلة */}
+         
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="flex items-center border border-[var(--amazon-border)] rounded-lg overflow-hidden bg-[var(--amazon-bg)]">
@@ -180,7 +179,7 @@ export default function ProductDetails() {
           </div>
         </div>
 
-        {/* قسم التبويبات (Description & Reviews) */}
+ 
         <div className="mt-12 bg-[var(--amazon-surface)] rounded-xl shadow-sm border border-[var(--amazon-border)] p-6">
           <div className="flex border-b border-[var(--amazon-border)] gap-8">
             <button 
@@ -204,11 +203,10 @@ export default function ProductDetails() {
               </div>
             ) : (
               <div>
-                {/* نموذج كتابة تقييم جديد */}
+              
                 <form onSubmit={handleReviewSubmit} className="mb-10 bg-[var(--amazon-bg)] p-6 rounded-xl border border-[var(--amazon-border)]">
                   <h3 className="text-lg font-bold text-[var(--amazon-textDark)] mb-3">Write a Review</h3>
                   
-                  {/* النجوم التفاعلية باستخدام FontAwesome بالشكل المطلوب تماماً */}
                   <div className="flex items-center gap-1 mb-4 text-2xl cursor-pointer">
                     {[1, 2, 3, 4, 5].map((star) => {
                       const isFilled = star <= (hoverRating || newRating);
@@ -246,7 +244,6 @@ export default function ProductDetails() {
                   </button>
                 </form>
 
-                {/* قائمة التقييمات السابقة */}
                 <div className="space-y-4">
                   {reviews.length === 0 ? (
                     <p className="text-[var(--amazon-textLight)] text-center py-6">No reviews yet. Be the first to review this product!</p>
